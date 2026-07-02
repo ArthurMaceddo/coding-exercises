@@ -1,21 +1,23 @@
+# Check Palindrome by Filtering Non-Letters 07.01.2026
+
 - 01/07/2026
 
 - Primeiro pensei em como pegar todas as letras de code e colocar dentro de uma variavel
 - Depois disso preciso converter todas para maisculo, se não na hora de comparar ele vai dar erro e não vai entender
 - Comparar code com a variavel e retornar true
 
-	result = ''.join(char for char in code.lower() if char.isalpha())
+  result = ''.join(char for char in code.lower() if char.isalpha())
 
-    result = re.sub(r'[^a-zA-Z]','',code)   
-		Ambos jeitos acima estão certos para resolver isso 
+    result = re.sub(r'[^a-zA-Z]','',code)  
+Ambos jeitos acima estão certos para resolver isso
 
 A primeira opção é a mesma coisa aqui:
 `result = ""
 
 for char in code.lower():
-    if char.isalpha():
-        result += char`
-        
+if char.isalpha():
+result += char`
+
     palindrome = result[::-1]
 
     if result == palindrome:
@@ -26,7 +28,7 @@ for char in code.lower():
 
         return False
 
-Utilizamos o método isalpha para verificar se é String ou não, ele retorna como True, caso retornar como True, ele incremente em result 
+Utilizamos o método isalpha para verificar se é String ou não, ele retorna como True, caso retornar como True, ele incremente em result
 Após isso invertemos a ordem em uma nova variavel(`palindrome`) utilizando [::-1], que é uma técnica de fatiamento (_slicing_) usada para **inverter** sequências (como strings, listas ou tuplas) de forma rápida
 Validamos se result é igual palindrome
 
@@ -107,6 +109,7 @@ Exemplo:
 Verifica se um caractere é uma letra do alfabeto.
 
 Retorna:
+
 - `True` → se for uma letra.
 - `False` → caso seja número, espaço ou símbolo.
 
