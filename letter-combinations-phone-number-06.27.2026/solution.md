@@ -1,37 +1,82 @@
-# Target Index Search (Pesquisa Binária)
+# Explicação
 
-A primeira coisa que precisamos entender é o que é uma pesquisa binária. Ela é um algoritmo eficiente para encontrar um item específico em uma lista de dados que já está ordenada.
+* Criamos o dicionário **telefone** de 2 até 9, incluindo 0 e 1.
+* Criamos uma lista vazia onde iremos adicionar as combinações.
+* Criamos uma função chamada `backtracking` com os parâmetros `index` e `char`:
+* `Index` = posição atual do número que estamos processando.
+* `Char` = combinação construída até o momento.
 
-## O que é uma Pesquisa Binária?
 
-Ela começa olhando exatamente para o meio da lista. Se o elemento do meio for o número que estamos procurando, a busca é encerrada imediatamente.
+* Criamos uma validação com `IF` para sabermos quando temos que adicionar uma combinação na lista.
+* No caso, precisamos que o `index` seja igual ao comprimento de `digits` (já que são strings).
+* Assim, adicionamos na lista com `append` e passamos o `char` de parâmetro.
+* Utilizamos `return` para encerrar aquela chamada da função e devolver a execução para a chamada anterior (que estava pausada).
 
-Caso o número do meio seja menor que o alvo, ela entende que o número procurado só pode estar na metade da direita da lista.
 
-Caso o número do meio seja maior que o alvo, ela entende que o número procurado só pode estar na metade da esquerda da lista.
+* Criamos um `for` para pegarmos cada letra necessária:
+* `for c in telephone[digits[index]]`
+* Dessa forma, estamos já pegando cada dígito e pegando a letra correta com base no dígito.
 
-Esse processo continua até encontrar o número procurado ou até não existir mais nenhum elemento para ser verificado.
 
-## Raciocínio Usado
+* Dentro do `for`, chamamos a função `backtracking` e passamos seus parâmetros adicionando + 1 em `index` e adicionando `c`.
+* Por que disso? Faz a recursão avançar para o próximo dígito. A combinação só é adicionada quando todos os dígitos tiverem sido processados.
+* Primeiro, o `for` roda e pega o primeiro dígito (`2`, ex: 23) e pega as letras correspondentes (`a`, ex: abc).
+* Após isso, ele salva em `backtracking(1, "a")`.
+* Tenta rodar o `if`, porém ainda não possui a mesma quantidade de índices que `digits`.
+* Começa outro `for`, porém agora pegando o outro número de `digits` (`3`, ex: 23) e pega as letras correspondentes (`d`, ex: def).
+* Roda o `backtracking` (que está salvo com o 1 e `"a"`), adiciona +1 e adiciona o `d`.
+* Após isso, o nosso `backtracking` fica da seguinte maneira:
+* `backtracking(1 + 1, "a" + "d")`
+* `backtracking(2, "ad")`
 
-Logo ao ler o exercício, entendi que o `mid` seria calculado da seguinte forma:
+
+* Agora, quando ele passar pelo `if`, ele terá a quantidade de índices igual à de `digits`.
+* E é adicionado na lista.
+* Retorna para a última vez antes de ser possível ser adicionado na lista (`backtracking(1, "a")`).
+* O `for` sabe que ainda possui o restante para ser percorrido da segunda execução (`e`, ex: def) e o processo se repete até chegar ao final de todas as letras.
+* Quando chega ao final de sua execução para `"def"`, ele passa para o primeiro `for` que estava congelado no `"a"`, o `char` passa a valer `"b"` e todo o processo se repete até tudo ser concluído.
+
+
+* Declaramos a função para ela saber de onde começar: `backtracking(0, "")`.
+* Retornamos `combinations` para visualizar as combinações.
+
+---
+
+# Base para backtracking
 
 ```python
-mid = (low + high) // 2
+def backtrack(estado):  
+  
+    if terminou:  
+        salvar_resposta()  
+        return  
+      
+    for escolha in escolhas_possiveis:  
+        fazer_escolha()  
+        backtrack(novo_estado)
+
 ```
 
-porque assim conseguimos encontrar o elemento do meio da faixa de busca.
+---
 
-A partir disso, eu precisava comparar `nums[mid]` com o `target` para saber se o valor era maior, menor ou igual ao alvo.
+# Mapa da árvore
 
-Para conseguir percorrer toda a área de busca, precisamos utilizar um `while`, porque enquanto o menor índice for menor ou igual ao maior índice, ainda existem posições para serem verificadas.
+```text
+backtrack(0, "")
 
-Se `nums[mid]` for igual ao `target`, significa que encontramos o índice correto e podemos retorná-lo.
+├── backtrack(1, "a")
+│   ├── backtrack(2, "ad") ✓
+│   ├── backtrack(2, "ae") ✓
+│   └── backtrack(2, "af") ✓
+│
+├── backtrack(1, "b")
+│   ├── backtrack(2, "bd") ✓
+│   ├── backtrack(2, "be") ✓
+│   └── backtrack(2, "bf") ✓
+│
+└── backtrack(1, "c")
+    ├── backtrack(2, "cd") ✓
+    ├── backtrack(2, "ce") ✓
+    └── backtrack(2, "cf") ✓
 
-Caso `nums[mid]` seja menor que o `target`, precisamos atualizar `low = mid + 1`, porque como o valor do `mid` é menor que o alvo, sabemos que o `target` não pode estar antes nem na posição atual. Então, a próxima busca começa a partir do índice `mid + 1`. Se essa nova posição já contiver o valor procurado, a próxima comparação irá encontrá-lo.
-
-Caso `nums[mid]` seja maior que o `target`, precisamos atualizar `high = mid - 1`, porque sabemos que o alvo não pode estar depois da posição atual. Dessa forma, a área de busca passa a terminar uma posição antes do `mid`.
-
-O processo se repete sempre verificando o meio da área de busca e atualizando os valores de `low` ou `high` conforme necessário, até encontrar o `target` ou retornar `-1`, como foi solicitado no enunciado.
-
-> **Observação:** Antes de resolver este exercício, precisei entender o que era uma pesquisa binária. Depois de compreender como ela funciona, consegui resolver o exercício.
+```

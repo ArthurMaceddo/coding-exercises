@@ -1,43 +1,37 @@
-# Binary Search
+# Pesquisa Binária
 
-The first thing we need to understand is what a binary search is. It is an efficient algorithm used to find a specific item in a sorted list of data.
+A primeira coisa que precisamos entender é o que é uma pesquisa binária. Ela é um algoritmo eficiente para encontrar um item específico em uma lista de dados que já está ordenada.
 
-## What is Binary Search?
+## O que é uma Pesquisa Binária?
 
-It starts by looking exactly at the middle of the list. If the middle element is the number we are looking for, the search ends immediately.
+Ela começa olhando exatamente para o meio da lista. Se o elemento do meio for o número que estamos procurando, a busca é encerrada imediatamente.
 
-If the middle number is smaller than the target, it understands that the target can only be in the right half of the list.
+Caso o número do meio seja menor que o alvo, ela entende que o número procurado só pode estar na metade da direita da lista.
 
-If the middle number is greater than the target, it understands that the target can only be in the left half of the list.
+Caso o número do meio seja maior que o alvo, ela entende que o número procurado só pode estar na metade da esquerda da lista.
 
-It keeps repeating this process until it finds the target or until there are no elements left to search.
+Esse processo continua até encontrar o número procurado ou até não existir mais nenhum elemento para ser verificado.
 
-## My Thought Process
+## Raciocínio Usado
 
-When I first read the exercise, I understood that the middle index should be calculated using:
+Logo ao ler o exercício, entendi que o `mid` seria calculado da seguinte forma:
 
 ```python
 mid = (low + high) // 2
 ```
 
-because this always finds the middle element of the current search range.
+porque assim conseguimos encontrar o elemento do meio da faixa de busca.
 
-After that, I needed to compare `nums[mid]` with the `target` to know if the value was greater than, less than, or equal to the target.
+A partir disso, eu precisava comparar `nums[mid]` com o `target` para saber se o valor era maior, menor ou igual ao alvo.
 
-To keep checking the search range, we need to use a `while` loop. As long as the lowest index is less than or equal to the highest index, the search should continue.
+Para conseguir percorrer toda a área de busca, precisamos utilizar um `while`, porque enquanto o menor índice for menor ou igual ao maior índice, ainda existem posições para serem verificadas.
 
-If `nums[mid]` is equal to the target, we have found the correct index and can return it.
+Se `nums[mid]` for igual ao `target`, significa que encontramos o índice correto e podemos retorná-lo.
 
-If `nums[mid]` is smaller than the target, we need to update `low = mid + 1`. Since `mid` is smaller than the target, we know the target cannot be before or at the current `mid`, so the next search starts at `mid + 1`. If that new position contains the target, the next comparison will find it.
+Caso `nums[mid]` seja menor que o `target`, precisamos atualizar `low = mid + 1`, porque como o valor do `mid` é menor que o alvo, sabemos que o `target` não pode estar antes nem na posição atual. Então, a próxima busca começa a partir do índice `mid + 1`. Se essa nova posição já contiver o valor procurado, a próxima comparação irá encontrá-lo.
 
-If `nums[mid]` is greater than the target, we update `high = mid - 1`. Since the target cannot be after the current `mid`, the search range now ends one position before it.
+Caso `nums[mid]` seja maior que o `target`, precisamos atualizar `high = mid - 1`, porque sabemos que o alvo não pode estar depois da posição atual. Dessa forma, a área de busca passa a terminar uma posição antes do `mid`.
 
-The process keeps repeating by always checking the middle of the current search range and updating either `low` or `high` when necessary, until the target is found or `-1` is returned, as requested in the problem statement.
+O processo se repete sempre verificando o meio da área de busca e atualizando os valores de `low` ou `high` conforme necessário, até encontrar o `target` ou retornar `-1`, como foi solicitado no enunciado.
 
-> **Note:** Before solving this exercise, I first had to learn what binary search was. After understanding how it works, I was able to solve the problem.
-
-## Source:
-
-https://www.geeksforgeeks.org/dsa/binary-search/ - Binary Search
-
-https://www.hackerrank.com/contests/software-engineer-prep-kit/challenges/lookup-with-binary-search - Exercise
+> **Observação:** Antes de resolver este exercício, precisei entender o que era uma pesquisa binária. Depois de compreender como ela funciona, consegui resolver o exercício.
